@@ -7,14 +7,39 @@ string TimeForm = "MM'/'dd'/'yy HH:mm:ss";
 if (args[0] == "read")
 {
     read();
+
 }
+else if (args[0] == "cheep")
+{
+
+    cheep();
+
+}
+
+void cheep()
+{
+    // Assign fields 
+    Message = args[1];
+    author = Environment.UserName;
+
+    // Get current time and convert to Unix
+    timestamp = DateTimeOffset.Now;
+    long unix = timestamp.ToUnixTimeSeconds();
+
+    // Make resulting string 
+    string result = $"{author},\"{Message}\",{unix}\n";
+
+    // Append to file
+    File.AppendAllText("chirp_cli_db.csv", result);
+}
+
 
 void read()
 {
-    // Open the text file using a stream reader.
+    // Open the text file using a stream reader
     using StreamReader reader = new("chirp_cli_db.csv");
 
-    // Read the stream as a string.
+    // Read the stream as a string
     string text = reader.ReadToEnd();
 
     // Split Data on newline
